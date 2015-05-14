@@ -1,0 +1,136 @@
+%\VignetteIndexEntry{MM2Sdata An Introduction (HowTo)}
+%\VignetteDepends{Biobase}
+%\VignetteSuggests{MM2S}
+%\VignetteKeywords{Medulloblastoma, Diagnosis, Cancer, Subtype, Classification}
+%\VignettePackage{MM2Sdata}
+%\VignetteEngine{knitr::knitr}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{geometry}
+\usepackage{authblk}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\usepackage[table]{xcolor}
+
+
+%------------------------------------------------------------
+% newcommand
+%------------------------------------------------------------
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{\textit{#1}}
+\newcommand{\Rpackage}[1]{\textit{#1}}
+\newcommand{\Rexpression}[1]{\texttt{#1}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+
+\begin{document}
+
+\title{\Rpackage{MM2Sdata}: Companion data package for Medulloblastoma Subtype Predictions}
+\author[1]{Deena M.A. Gendoo\thanks{deena.gendoo@utoronto.ca}}
+\author[1]{Benjamin Haibe-Kains\thanks{benjamin.haibe.kains@utoronto.ca }}
+\affil[1]{Bioinformatics and Computational Genomics Laboratory, Princess Margaret Cancer Center, University Health Network, Toronto, Ontario, Canada}
+\affil[2]{Medical Biophysics Department, University of Toronto, Toronto, Ontario, Canada}
+
+%<<setup,echo=FALSE>>=
+%library(pgfSweave)
+%setCacheDir("cache")
+%options(keep.source=TRUE)
+%@
+
+\maketitle
+\tableofcontents
+
+%------------------------------------------------------------
+\section{Introduction}
+%------------------------------------------------------------ 
+The MM2Sdata package is providing companion gene expression datasetss for the MM2S package. 
+
+The package contains normalized expression data for Human Medulloblastoma (GSE37418) as well as Mouse Medulloblastoma models (GSE36594). 
+
+Please refer to the manuscript URL: http://www.sciencedirect.com/science/article/pii/S0888754315000774
+
+PLEASE NOTE: 
+The current MM2Sdata package on CRAN is TRUNCATED for example purposes only and submission into CRAN. 
+The full processed GSE36594 and GSE37418 datasets can be accessed from Github:
+https://github.com/DGendoo/MM2Sdata
+Please refer below for additional details. 
+
+%------------------------------------------------------------
+\section{Loading package for case studies}
+%------------------------------------------------------------ 
+Both versions of the package are publicly available and can be installed in R version 2.13.0 or higher. 
+To load the MM2Sdata package under Github:
+<<installAndLoadPackageFromGithub,eval=TRUE>>=
+# To install from github, please run the following commands in your R terminal:
+# library(Biobase)
+# library(devtools)
+# dev_mode(on=T)
+# install_github(repo="DGendoo/MM2Sdata")
+# dev_mode(on=F) 
+@
+
+The MM2Sdata package under CRAN contains the following ExpressionSets:
+
+\begin{description}
+\item GSE36594expr: Gene expression for 20 Medulloblastoma mouse samples that are sample replicates for the GTML mouse model. 
+\item GSE37418Expr: Gene expression for 10 primary Medulloblastoma human samples
+\end{description}
+
+Please consult the manual of the MM2Sdata package for more details.
+
+<<installAndLoadPackages,eval=TRUE>>=
+library(MM2Sdata)
+@
+
+%------------------------------------------------------------
+\section{Explore the Mouse Gene Expression Object}
+%------------------------------------------------------------ 
+
+We first load GSE36594expr, which contains mouse Medulloblastoma gene expression data. 
+We can then search for a specific mouse genotype (GTML) for future analyses. 
+<<findMouseModelSubtypes>>=
+data(GSE36594Expr)
+ExprMat<-exprs(GSE36594Expr)
+GTML<-ExprMat[,grep("GTML_MB",(colnames(exprs(GSE36594Expr))))]
+
+#Change mouse sample names for clarity
+for(sample in 1:ncol(GTML))
+{
+  newnames<-strsplit(x=(colnames(GTML)[sample]),split="_")[[1]][1]
+  colnames(GTML)[sample]<-newnames
+}
+
+# Determine Final Size of the Object
+dim(GTML)
+@
+
+%------------------------------------------------------------
+%%% CODE Stop
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\section{Explore the Human Gene Expression Object}
+%------------------------------------------------------------ 
+We first load the gene expression data of 76 primary human patient tumours from GSE37418.
+We can determine the subtypes attributed to each sample. 
+<<findHumanModelSubtypes>>=
+data(GSE37418Expr)
+head(pData(GSE37418Expr))
+# Determine exact sample counts for each MB subtype across the 76 samples
+table(pData(GSE37418Expr)$characteristics_ch1)
+@
+
+\newpage
+%------------------------------------------------------------
+\section{Session Info}
+%------------------------------------------------------------ 
+<<sessionInfo,echo=FALSE,results="tex">>==
+toLatex(sessionInfo())
+@
+
+\end{document}
