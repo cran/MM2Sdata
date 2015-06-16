@@ -7,8 +7,11 @@ Normalized gene expression data for Human MB (GSE37418).
 \description{
 Gene expression for 10 primary Medulloblastoma human samples, normalized using expresso and BrainArray CDFs (see references for details). 
 
-PLEASE NOTE: The full processed GSE37418 dataset, which contains 76 samples, can be accessed from Github:
+PLEASE NOTE: 
+The full processed GSE37418 dataset, which contains 76 samples, 
+can be accessed from the following locations:
 https://github.com/DGendoo/MM2Sdata
+http://www.pmgenomics.ca/bhklab/software/mm2s
 }
 \usage{data(GSE37418Expr)}
 \value{
@@ -32,9 +35,7 @@ data(GSE37418Expr)
 # To install from github, please run the following commands in your R terminal:
 # library(Biobase)
 # library(devtools)
-# dev_mode(on=T)
 # install_github(repo="DGendoo/MM2Sdata")
-# dev_mode(on=F) 
 # data(GSE37418Expr)
 }
 \keyword{datasets}

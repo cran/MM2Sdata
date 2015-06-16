@@ -5,10 +5,13 @@
 Normalized gene expression data for Mouse MB samples (from GSE36594).
 }
 \description{
-Gene expression for 20 Medulloblastoma mouse samples, normalized using expresso and BrainArray CDFs (see references for details). 
+Gene expression for 20 GTML Medulloblastoma mouse samples, normalized using expresso and BrainArray CDFs (see references for details). 
 
-PLEASE NOTE: The full processed GSE36594 dataset, which contains 32 GTML replicates, can be accessed from Github:
+PLEASE NOTE: 
+The full processed GSE36594 dataset, which contains 56 samples, 
+can be accessed from the following locations:
 https://github.com/DGendoo/MM2Sdata
+http://www.pmgenomics.ca/bhklab/software/mm2s
 
 }
 \usage{data(GSE36594Expr)}
@@ -33,9 +36,7 @@ data(GSE36594Expr)
 # To install from github, please run the following commands in your R terminal:
 # library(Biobase)
 # library(devtools)
-# dev_mode(on=T)
 # install_github(repo="DGendoo/MM2Sdata")
-# dev_mode(on=F) 
 # data(GSE36594Expr)
 }
 \keyword{datasets}
