@@ -1,0 +1,169 @@
+%\VignetteIndexEntry{MM2Sdata An Introduction (HowTo)}
+%\VignetteDepends{Biobase}
+%\VignetteSuggests{MM2S}
+%\VignetteKeywords{Medulloblastoma, Diagnosis, Cancer, Subtype, Classification}
+%\VignettePackage{MM2Sdata}
+%\VignetteEngine{knitr::knitr}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{geometry}
+\usepackage{authblk}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\usepackage[table]{xcolor}
+
+
+%------------------------------------------------------------
+% newcommand
+%------------------------------------------------------------
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{\textit{#1}}
+\newcommand{\Rpackage}[1]{\textit{#1}}
+\newcommand{\Rexpression}[1]{\texttt{#1}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+
+\begin{document}
+
+\title{\Rpackage{MM2Sdata}: Companion data package for Medulloblastoma Subtype Predictions}
+\author[1]{Deena M.A. Gendoo\thanks{deena.gendoo@utoronto.ca}}
+\author[1]{Benjamin Haibe-Kains\thanks{benjamin.haibe.kains@utoronto.ca }}
+\affil[1]{Bioinformatics and Computational Genomics Laboratory, Princess Margaret Cancer Center, University Health Network, Toronto, Ontario, Canada}
+\affil[2]{Medical Biophysics Department, University of Toronto, Toronto, Ontario, Canada}
+
+%<<setup,echo=FALSE>>=
+%library(pgfSweave)
+%setCacheDir("cache")
+%options(keep.source=TRUE)
+%@
+
+\maketitle
+\tableofcontents
+
+%------------------------------------------------------------
+\section{Introduction}
+%------------------------------------------------------------ 
+The MM2Sdata package is providing companion gene expression datasets for the MM2S package. The package contains normalized expression data for Human Medulloblastoma (GSE37418) as well as Mouse Medulloblastoma models (GSE36594). 
+
+
+Please refer to the manuscript URL: http://www.sciencedirect.com/science/article/pii/S0888754315000774
+
+PLEASE NOTE: 
+The MM2Sdata package contains a subset of samples from GSE36594 and GSE37418. 
+Should you wish to test the full processed GSE36594 and GSE37418 datasets, 
+these can be accessed from Github. 
+(Please refer to the References section below for additional details). 
+
+%------------------------------------------------------------
+\section{Loading package for case studies}
+%------------------------------------------------------------ 
+MM2Sdata is publicly available and can be installed in R version 2.13.0 or higher. 
+To load the MM2Sdata package:
+<<installAndLoadPackageFromCRAN,eval=FALSE>>=
+install.packages("MM2Sdata")
+@
+
+The MM2Sdata package under CRAN contains the following ExpressionSets:
+
+\begin{description}
+\item GSE36594expr: Gene expression for 20 Medulloblastoma mouse samples that are sample replicates for the GTML mouse model. 
+\item GSE37418Expr: Gene expression for 10 primary Medulloblastoma human samples
+\end{description}
+
+<<installAndLoadPackages,eval=TRUE>>=
+library(MM2Sdata)
+@
+
+%------------------------------------------------------------
+\section{Explore the Mouse Gene Expression Object}
+%------------------------------------------------------------ 
+
+We first load GSE36594expr, which contains mouse Medulloblastoma gene expression data. 
+We can then search for a specific mouse genotype (GTML) for future analyses. 
+<<findMouseModelSubtypes>>=
+data(GSE36594Expr)
+ExprMat<-exprs(GSE36594Expr)
+GTML<-ExprMat[,grep("GTML_MB",(colnames(exprs(GSE36594Expr))))]
+
+#Change mouse sample names for clarity
+for(sample in 1:ncol(GTML))
+{
+  newnames<-strsplit(x=(colnames(GTML)[sample]),split="_")[[1]][1]
+  colnames(GTML)[sample]<-newnames
+}
+
+# Determine Final Size of the Object
+dim(GTML)
+@
+
+%------------------------------------------------------------
+%%% CODE Stop
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\section{Explore the Human Gene Expression Object}
+%------------------------------------------------------------ 
+We first load the gene expression data of 76 primary human patient tumours from GSE37418.
+We can determine the subtypes attributed to each sample. 
+<<findHumanModelSubtypes>>=
+data(GSE37418Expr)
+head(pData(GSE37418Expr))
+# Determine exact sample counts for each MB subtype across the 76 samples
+table(pData(GSE37418Expr)$characteristics_ch1)
+@
+
+\newpage
+
+%------------------------------------------------------------
+\section{References and Extra Notes}
+%------------------------------------------------------------ 
+The MM2Sdata package contains companion datasets for use in the MM2S package. 
+Both MM2S and MM2Sdata are publicly available and can be installed in R version 2.13.0 or higher.
+
+The current MM2Sdata package on CRAN is TRUNCATED for example purposes only and submission into CRAN. 
+The full processed GSE36594 and GSE37418 datasets can be accessed from Github, 
+as well as the Haibe-Kains (BHK) lab Website.  
+
+The MM2Sdata package under Github contains the following ExpressionSets:
+
+\begin{description}
+\item GSE36594expr: Gene expression for 56 Medulloblastoma mouse samples, on which 32 are sample replicates for the GTML mouse model. 
+\item GSE37418Expr: Gene expression for 76 primary Medulloblastoma human samples. 
+\end{description}
+
+Please refer to the following data repositories and websites for additional information, as necessary:
+\begin{description}
+\item MM2Sdata on Github: https://github.com/DGendoo OR https://github.com/bhklab
+\item BHK Lab Website: http://www.pmgenomics.ca/bhklab/software/mm2s
+\end{description}
+
+The following code snippet is an example installation of the data repositories from Github. 
+
+<<InstallingFromGithubExample,echo=TRUE>>=
+# library(Biobase)
+# library(devtools)
+# install_github(repo="DGendoo/MM2S")
+# install_github(repo="DGendoo/MM2Sdata")
+@
+
+%------------------------------------------------------------
+\section{License}
+%------------------------------------------------------------ 
+The MM2Sdata package is released under the Artistic-2.0 License.
+
+
+The MM2Sdata package is provided "AS-IS" and without any warranty of any kind. In no event shall the University Health Network (UHN) or the authors be liable for any consequential damage of any kind, or any damages resulting from the use of MM2Sdata.
+
+%------------------------------------------------------------
+\section{Session Info}
+%------------------------------------------------------------ 
+<<sessionInfo,echo=FALSE,results="tex">>==
+toLatex(sessionInfo())
+@
+
+\end{document}
