@@ -1,0 +1,16 @@
+
+citHeader("To cite MM2Sdata in publications use:")
+
+citEntry(entry="article",
+  title  ="Personalized Diagnosis of Medulloblastoma Subtypes Across Patients and Model Systems",
+  author = "Gendoo DM, Smirnov P, Lupien M, Haibe-Kains B",
+  journal = "Genomics",
+  year = "2015",
+  volume = "",
+  pages = "",
+  textVersion = paste("Gendoo DM, Smirnov P, Lupien M, Haibe-Kains B",
+    "Personalized Diagnosis of Medulloblastoma Subtypes Across Patients and Model Systems",
+    "Genomics"))
+
+citFooter("We have invested our time and effort in creating MM2Sdata,",
+          "we would be grateful if you could cite it when using it in your analysis.")
